@@ -10,19 +10,29 @@ It supports all sorts of pointers, links, etc.
 Usage
 ---
 
-Configure your database.yml file to use the same database.
+1. Configure your database.yml file to use the same database.
 
-Add this to your Rakefile:
+2. Add this to your Gemfile:
+
+```
+gem "makumba_import"
+```
+
+3. Add this to your Rakefile:
 
 ```
 Dir["#{Gem.searcher.find('makumba_import').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
 ```
 
-Generate a initializer called makumba_import.rb with the following contents:
+4. Generate a initializer called makumba_import.rb with the following contents:
 
 ```
 MakumbaImport::Importer.setMddPath "/..your.path../WEB-INF/classes/dataDefinitions"
 MakumbaImport::Importer.setOutputPath "./" # where to generate the .rb files. Leave blank to import straight into the app folders
 ```
 
-Run rake makumba_import:schema and rake makumba_import:models.
+5. Run 
+```
+rake makumba_import:schema
+rake makumba_import:models
+```
