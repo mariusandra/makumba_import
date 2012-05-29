@@ -216,7 +216,7 @@ module MakumbaImport
         txt << "class "+tablename.classify+" < ActiveRecord::Base\n"
         txt << "  set_table_name \""+tablename+"_\"\n"
         txt << "  set_primary_key \""+lastpart+"_\"\n"
-        txt << "  fix_makumba_columns\n\n"
+        txt << "  set_makumba_pointer_type \""+key+"\"\n\n"
         
         table.each do |name, field|
           if name == 'ref'
@@ -230,8 +230,9 @@ module MakumbaImport
               #puts "  belongs_to :"+name.downcase+", :foreign_key => '"+name+"_', :class_name => '"+field['ptr'].gsub(".", "_").classify+"'\n"
             end
           end
-          
         end
+
+        txt << "\n  fix_makumba_columns\n"
         
         txt << "end\n\n"
 

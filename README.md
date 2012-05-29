@@ -37,3 +37,13 @@ MakumbaImport::Importer.setOutputPath "./" # where to generate the .rb files. Le
 rake makumba_import:schema
 rake makumba_import:models
 ```
+
+Extra:
+
+Use
+
+```
+SomeModel.first.toExternalForm
+```
+
+to get the makumba pointer
