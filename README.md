@@ -32,6 +32,7 @@ MakumbaImport::Importer.setOutputPath "./" # where to generate the .rb files. Le
 ```
 
 5. Run 
+
 ```
 rake makumba_import:schema
 rake makumba_import:models
