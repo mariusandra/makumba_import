@@ -7,11 +7,11 @@ module MakumbaImport
     def self.setMddPath(mddPath)
       @mddPath = mddPath
     end
-    
+
     def self.setOutputPath(outputPath)
       @outputPath = outputPath
     end
-    
+
     def self.get_data(lines, mdd)
       fieldRegexp = /^([a-zA-Z\_]+)\s*=\s*([^;]+);?(.*)/
       fieldTypes = ["int", "text", "real", "date", "boolean", "binary", "file"]
@@ -183,7 +183,7 @@ module MakumbaImport
       
       txt << "end\n\n"
       
-      File.open("db/schema.rb", "w+") do |f|
+      File.open(@outputPath+"db/schema.rb", "w+") do |f|
         f.write(txt)
       end
     end
@@ -224,10 +224,10 @@ module MakumbaImport
               txt << "  has_many :"+f['link_from'].split('.').last.downcase.pluralize+", :foreign_key => '"+f['primary_key']+"_', :class_name => \""+f['link_from'].gsub(".","_").classify+"\"\n"
             end
           else
-            puts key
+            #puts key
             if ["ptr"].include? field['type']
               txt << "  belongs_to :"+name.downcase+", :foreign_key => '"+name+"_', :class_name => '"+field['ptr'].gsub(".", "_").classify+"'\n"
-              puts "  belongs_to :"+name.downcase+", :foreign_key => '"+name+"_', :class_name => '"+field['ptr'].gsub(".", "_").classify+"'\n"
+              #puts "  belongs_to :"+name.downcase+", :foreign_key => '"+name+"_', :class_name => '"+field['ptr'].gsub(".", "_").classify+"'\n"
             end
           end
           
@@ -235,7 +235,7 @@ module MakumbaImport
         
         txt << "end\n\n"
 
-        File.open("app/models/"+filename, "w+") do |f|
+        File.open(@outputPath+"app/models/"+filename, "w+") do |f|
           f.write(txt)
         end
 
