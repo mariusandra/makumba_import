@@ -7,6 +7,9 @@ More specifically it generates a database schema and models matching what's desc
 
 It supports all sorts of pointers, links, etc.
 
+Update: now supports saving and creating new models. Keeps track of primary keys via Redis.
+
+
 Usage
 ---
 
@@ -27,8 +30,13 @@ Dir["#{Gem.searcher.find('makumba_import').full_gem_path}/lib/tasks/*.rake"].eac
 4. Generate a initializer called makumba_import.rb with the following contents:
 
 ```
-MakumbaImport::Importer.setMddPath "/..your.path../WEB-INF/classes/dataDefinitions"
-MakumbaImport::Importer.setOutputPath "./" # where to generate the .rb files. Leave blank to import straight into the app folders
+MakumbaImport::Importer.set_mdd_path "/Users/marius/Projects/Cherry/cherry/web/WEB-INF/classes/dataDefinitions"
+MakumbaImport::Importer.set_output_path "./" # where to generate the .rb files. Leave blank to import straight into the app folders
+
+MakumbaImport::KeyHandler.set_dbsv 0
+MakumbaImport::KeyHandler.init_redis REDIS   # set this to your Redis class
+
+#MakumbaImport::KeyHandler.update_redis_keys  # uncomment once per server to store the latest keys per dbsv in redis
 ```
 
 5. Run 
@@ -43,7 +51,7 @@ Extra:
 Use
 
 ```
-SomeModel.first.toExternalForm
+SomeModel.first.to_ptr
 ```
 
 to get the makumba pointer

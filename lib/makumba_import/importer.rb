@@ -1,15 +1,15 @@
 module MakumbaImport
   class Importer
 
-    @mddPath = ""
-    @outputPath = ""
+    @mdd_path    = ""
+    @output_path = ""
 
-    def self.setMddPath(mddPath)
-      @mddPath = mddPath
+    def self.set_mdd_path(mdd_path)
+      @mdd_path = mdd_path
     end
 
-    def self.setOutputPath(outputPath)
-      @outputPath = outputPath
+    def self.set_output_path(output_path)
+      @output_path = output_path
     end
 
     def self.get_data(lines, mdd)
@@ -108,7 +108,7 @@ module MakumbaImport
     end
 
     def self.load_mdds
-      dir = @mddPath
+      dir = @mdd_path
 
       @files = Dir.glob(dir+"/*/*.mdd")
       @files |= Dir.glob(dir+"/*/*/*.mdd")
@@ -183,7 +183,7 @@ module MakumbaImport
       
       txt << "end\n\n"
       
-      File.open(@outputPath+"db/schema.rb", "w+") do |f|
+      File.open(@output_path+"db/schema.rb", "w+") do |f|
         f.write(txt)
       end
     end
@@ -236,7 +236,7 @@ module MakumbaImport
         
         txt << "end\n\n"
 
-        File.open(@outputPath+"app/models/"+filename, "w+") do |f|
+        File.open(@output_path+"app/models/"+filename, "w+") do |f|
           f.write(txt)
         end
 

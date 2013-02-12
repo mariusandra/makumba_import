@@ -12,9 +12,12 @@ module LegacyMakumba
           unless self.method_defined? new_name
             self.send(:define_method, new_name) { self.send(old_name) }
             self.send(:define_method, "#{new_name}=") { |value| self.send("#{old_name}=", value) }
+            self.send(:define_method, "find_by_#{new_name}") { |value| self.send("find_by_#{old_name}", value) }
           end
         end
       end
+
+      self.send(:before_save, :update_makumba_fields)
     end
 
     def set_makumba_pointer_type(type)
@@ -22,7 +25,17 @@ module LegacyMakumba
     end
   end
 
-  def toExternalForm
+  def update_makumba_fields
+    self.id = next_primary_key if self.id.blank?
+    self.TS_create = Time.new if self.TS_create.blank?
+    self.TS_modify = Time.new
+  end
+
+  def next_primary_key
+    MakumbaImport::KeyHandler.next_primary_key(self.class.name)
+  end
+
+  def to_pointer
     def crc(v)
       r = 0
       32.times do
@@ -60,4 +73,9 @@ end
 
 class ActiveRecord::Base
   include LegacyMakumba
+
+  def self.last_primary_key(dbsv = MakumbaImport::KeyHandler.get_dbsv)
+    self.select("max(#{primary_key}) as biggest").where("#{primary_key} > ? and #{primary_key} < ?", dbsv << 24, (dbsv + 1) << 24).first.biggest || (dbsv << 24)
+  end
+
 end
