@@ -35,7 +35,7 @@ module LegacyMakumba
     MakumbaImport::KeyHandler.next_primary_key(self.class.name)
   end
 
-  def to_pointer
+  def to_ptr
     def crc(v)
       r = 0
       32.times do
