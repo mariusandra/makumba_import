@@ -26,15 +26,15 @@ class ActiveRecord::Base
   end
 
   def self.pointer_type=(type)
-    @@pointer_type = type
+    @pointer_type = type
   end
 
   def self.pointer_type
-    @@pointer_type
+    @pointer_type
   end
 
   def self.find_by_ptr(ptr)
-    hc = @@pointer_type.to_java_hashcode & "ffffffffl".to_i(16)
+    hc = @pointer_type.to_java_hashcode & "ffffffffl".to_i(16)
     l = ptr.to_i(36)
     n = l & "ffffffffl".to_i(16)
     n = n ^ hc
@@ -80,7 +80,7 @@ class ActiveRecord::Base
 
     n = self.id
 
-    hc = @@pointer_type.to_java_hashcode & "ffffffffl".to_i(16)
+    hc = self.class.pointer_type.to_java_hashcode & "ffffffffl".to_i(16)
     ((crc(n) & "fl".to_i(16)) << 32 | n ^ hc).to_s(36)
   end
 
