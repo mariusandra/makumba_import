@@ -36,7 +36,7 @@ module MakumbaImport
         begin
           object      = Object.const_get(model)
           primary_key = object.primary_key
-          current_max = object.unscoped.maximum(primary_key, :conditions => ["#{primary_key} > ? and #{primary_key} < ?", @dbsv << 24, (@dbsv + 1) << 24])
+          current_max = object.unscoped.maximum(primary_key, :conditions => ["#{primary_key} > ? and #{primary_key} < ?", @dbsv << 24, (@dbsv + 1) << 24]) || ((@dbsv << 24) + 1)
           redis_key   = "maxprimary_#{model}_#{@dbsv}"
 
           @redis.set redis_key, current_max

@@ -214,9 +214,9 @@ module MakumbaImport
         txt << "# " + tablename.classify.tableize.singularize + ".rb\n\n"
         
         txt << "class "+tablename.classify+" < ActiveRecord::Base\n"
-        txt << "  set_table_name \""+tablename+"_\"\n"
-        txt << "  set_primary_key \""+lastpart+"_\"\n"
-        txt << "  set_makumba_pointer_type \""+key+"\"\n\n"
+        txt << "  self.table_name   = \""+tablename+"_\"\n"
+        txt << "  self.primary_key  = \""+lastpart+"_\"\n"
+        txt << "  self.pointer_type = \""+key+"\"\n\n"
         
         table.each do |name, field|
           if name == 'ref'
