@@ -243,6 +243,8 @@ module MakumbaImport
           end
         end
 
+        txt << "\n  fix_makumba_columns\n"
+        
         if enums.count > 0
           i = 0
           maxlen = enums.keys.map{|k| k.length}.sort.last
@@ -255,9 +257,7 @@ module MakumbaImport
           txt << "\n"
         end
 
-        txt << "\n  fix_makumba_columns\n\n\n\n"
-        
-        txt << "end\n\n"
+        txt << "\n\n\nend\n\n"
 
         File.open(@output_path+"app/models/"+filename, "w+") do |f|
           f.write(txt)

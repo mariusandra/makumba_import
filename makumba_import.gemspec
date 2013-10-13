@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'makumba_import'
-  s.version = '0.4.0'
+  s.version = '0.4.1'
   s.date = '2013-10-13'
   s.summary = "Makumba database integration with Rails applications"
   s.description = "Generate models matching your Makumba MDDs"
