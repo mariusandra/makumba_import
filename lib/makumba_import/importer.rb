@@ -102,7 +102,7 @@ module MakumbaImport
           
         end
       end
-      #puts schema
+      #p schema
       schema
       
     end
@@ -200,7 +200,7 @@ module MakumbaImport
           end
         end
       end
-      
+
       newOnes.each do |k, v|
         schema[k]['ref'] = v 
       end
@@ -232,7 +232,30 @@ module MakumbaImport
           end
         end
 
-        txt << "\n  fix_makumba_columns\n"
+        enums = {}
+        table.each do |name, field|
+          if field['type'] == "enum"
+            enums[name] = {}
+            field['fields'].each do |integer, string|
+              keyword = string.downcase.gsub(/[^a-z0-9]/, ' ').gsub(/\s+/, '_')
+              enums[name][keyword.to_sym] = integer.to_i
+            end
+          end
+        end
+
+        if enums.count > 0
+          i = 0
+          maxlen = enums.keys.map{|k| k.length}.sort.last
+          enums.each do |key, value|
+            txt << "\n  #{i == 0 ? 'enums ' : '      '}:#{key.ljust(maxlen)} => #{value.inspect}"+(i == enums.count - 1 ? "" : ",")
+            i += 1
+          end
+          #txt << "\n  #enums #{enums.inspect}"
+
+          txt << "\n"
+        end
+
+        txt << "\n  fix_makumba_columns\n\n\n\n"
         
         txt << "end\n\n"
 

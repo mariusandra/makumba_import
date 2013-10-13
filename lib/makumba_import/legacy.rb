@@ -41,6 +41,10 @@ class ActiveRecord::Base
     self.find(n)
   end
 
+  def self.find_by_id(id)
+    self.find(id)
+  end
+
   def self.fix_makumba_columns
     column_names.each do |old_name|
       if old_name.match(/_$/)
@@ -49,6 +53,7 @@ class ActiveRecord::Base
           self.send(:define_method, new_name) { self.send(old_name) }
           self.send(:define_method, "#{new_name}=") { |value| self.send("#{old_name}=", value) }
           self.metaclass.send(:define_method, "find_by_#{new_name}") { |value| self.send("find_by_#{old_name}", value) }
+          self.metaclass.send(:define_method, "find_by_#{new_name}!") { |value| self.send("find_by_#{old_name}!", value) }
         end
       end
     end

@@ -24,7 +24,7 @@ gem "makumba_import"
 3. Add this to your Rakefile:
 
 ```
-Dir["#{Gem.searcher.find('makumba_import').full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
+Dir["#{Gem::Specification.find_all_by_name('makumba_import').first.full_gem_path}/lib/tasks/*.rake"].each { |ext| load ext }
 ```
 
 4. Generate a initializer called makumba_import.rb with the following contents:

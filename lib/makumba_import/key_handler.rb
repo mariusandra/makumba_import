@@ -30,8 +30,6 @@ module MakumbaImport
 
       models = ActiveRecord::Base.subclasses.collect { |type| type.name }.sort
 
-      #p models
-
       models.each do |model|
         begin
           object      = Object.const_get(model)
@@ -41,7 +39,7 @@ module MakumbaImport
 
           @redis.set redis_key, current_max
         rescue => e
-          p e
+          puts "#{model} - #{e}"
         end
       end
 
