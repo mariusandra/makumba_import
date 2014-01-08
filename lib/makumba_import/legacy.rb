@@ -62,7 +62,7 @@ class ActiveRecord::Base
   end
 
   def self.next_primary_key
-    MakumbaImport::KeyHandler.next_primary_key(self.to_s)
+    MakumbaImport::KeyHandler.next_primary_key(self.table_name)
   end
 
   def update_makumba_fields
